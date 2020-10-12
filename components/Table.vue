@@ -5,10 +5,16 @@
         <tr>
           <th></th>
           <th v-for="heading in ths" :key="'th' + heading">
-            {{ heading }}
-            <button type="button" class="sort-button" @click="sort(heading)">
-              Sort
-            </button>
+            <div class="is-flex">
+              {{ heading | humanize }}
+              <button
+                type="button"
+                class="d-button sort-button"
+                @click="sort(heading)"
+              >
+                <DIcon name="sort" family="light" />
+              </button>
+            </div>
           </th>
         </tr>
       </thead>
@@ -20,32 +26,49 @@
           </td>
         </tr>
       </tbody>
-      <tfoot v-if="pages" class="table-footer">
-        <p>
-          <button
-            v-if="pages.prev"
-            type="button"
-            class="page-button"
-            @click="goto('prev')"
-          >
-            <span class="previous">Previous</span>
-          </button>
-          <button
-            v-if="pages.next"
-            type="button"
-            class="page-button"
-            @click="goto('next')"
-          >
-            <span class="next">Next</span>
-          </button>
-        </p>
-      </tfoot>
     </table>
+    <footer v-if="pages" class="table-footer">
+      <DButton
+        v-if="pages.prev"
+        type="button"
+        class="page-button mx-2"
+        name="Previous"
+        @click="goto('prev')"
+      >
+        <template #icon-left>
+          <DIcon name="caret-left" family="light" class="mr-2" />
+        </template>
+      </DButton>
+      <DButton
+        v-if="pages.next"
+        type="button"
+        class="page-button mx-2"
+        name="Next"
+        @click="goto('next')"
+      >
+        <template #icon-right>
+          <DIcon name="caret-right" family="light" class="ml-2" />
+        </template>
+      </DButton>
+    </footer>
   </div>
 </template>
 
 <script>
+import { DIcon, DButton } from '@brown-ccv/disco-vue-components'
+
 export default {
+  components: {
+    DIcon,
+    DButton,
+  },
+  filters: {
+    humanize(str) {
+      const cleanStr = str.replace(/_/g, ' ')
+      const upperFirst = cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1)
+      return upperFirst
+    },
+  },
   props: {
     data: {
       type: Array,
@@ -87,3 +110,14 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.table-footer {
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+}
+.sort-button {
+  border: 0;
+  font-size: 0.6rem;
+}
+</style>
