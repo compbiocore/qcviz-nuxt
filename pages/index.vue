@@ -1,16 +1,19 @@
 <template>
-  <div class="container"><Table :data="tableData" /></div>
+  <div class="container">
+    <Table :data="tableData" :pages="pages" @goto="goTo" />
+  </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
 export default {
   async fetch({ store }) {
-    await store.dispatch('samples/fetchData')
+    await store.dispatch('samples/fetchData', '/samples')
   },
   computed: {
     ...mapState({
       data: (state) => state.samples.data,
+      pages: (state) => state.samples.pages,
     }),
     tableData() {
       return this.data.map((d) => {
@@ -25,6 +28,11 @@ export default {
           library_name: meta.library_name,
         }
       })
+    },
+  },
+  methods: {
+    async goTo(payload) {
+      await this.$store.dispatch('samples/fetchData', this.pages[payload])
     },
   },
 }

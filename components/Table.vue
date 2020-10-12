@@ -20,6 +20,26 @@
           </td>
         </tr>
       </tbody>
+      <tfoot v-if="pages" class="table-footer">
+        <p>
+          <button
+            v-if="pages.prev"
+            type="button"
+            class="page-button"
+            @click="goto('prev')"
+          >
+            <span class="previous">Previous</span>
+          </button>
+          <button
+            v-if="pages.next"
+            type="button"
+            class="page-button"
+            @click="goto('next')"
+          >
+            <span class="next">Next</span>
+          </button>
+        </p>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -28,8 +48,12 @@
 export default {
   props: {
     data: {
-      type: Object,
+      type: Array,
       required: true,
+    },
+    pages: {
+      type: Object,
+      default: null,
     },
   },
   data() {
@@ -53,6 +77,9 @@ export default {
     },
   },
   methods: {
+    goto(event) {
+      this.$emit('goto', event)
+    },
     sort(sortby) {
       this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
       this.currentSort = sortby
