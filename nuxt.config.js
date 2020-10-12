@@ -44,7 +44,7 @@ export default {
       common: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'localhost',
+        'Access-Control-Allow-Origin': '*',
       },
     },
   },
