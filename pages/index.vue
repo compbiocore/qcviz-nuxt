@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'vuex';
 export default {
   async fetch({ store }) {
-    await store.dispatch('samples/fetchData', '/samples')
+    await store.dispatch('samples/fetchData', '/samples');
   },
   computed: {
     ...mapState({
@@ -17,7 +17,7 @@ export default {
     }),
     tableData() {
       return this.data.map((d) => {
-        const meta = d.attributes
+        const meta = d.attributes;
         return {
           sample_id: meta.sample_id,
           experiment_id: meta.experiment_id,
@@ -26,14 +26,14 @@ export default {
           library_selection: meta.library_selection,
           library_source: meta.library_source,
           library_name: meta.library_name,
-        }
-      })
+        };
+      });
     },
   },
   methods: {
     async goTo(payload) {
-      await this.$store.dispatch('samples/fetchData', this.pages[payload])
+      await this.$store.dispatch('samples/fetchData', this.pages[payload]);
     },
   },
-}
+};
 </script>

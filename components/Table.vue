@@ -1,32 +1,31 @@
 <template>
   <div>
-    <table class="table">
-      <thead>
+    <v-table
+      class="table-hover table"
+      :data="data"
+      selection-mode="multiple"
+      selected-class="has-background-grey-lighter"
+      @selectionChanged="selectedRows = $event"
+    >
+      <thead slot="head">
         <tr>
-          <th></th>
-          <th v-for="heading in ths" :key="'th' + heading">
-            <div class="is-flex">
-              {{ heading | humanize }}
-              <button
-                type="button"
-                class="d-button sort-button"
-                @click="sort(heading)"
-              >
-                <DIcon name="sort" family="light" />
-              </button>
-            </div>
-          </th>
+          <v-th
+            v-for="heading in ths"
+            :key="'th' + heading"
+            :sort-key="heading"
+          >
+            {{ heading | humanize }}
+          </v-th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="(datum, i) in sorted" :key="'row' + i">
-          <td><input type="checkbox" /></td>
-          <td v-for="k in Object.keys(datum)" :key="'td' + k">
-            {{ datum[k] }}
+      <tbody slot="body" slot-scope="{ displayData }">
+        <v-tr v-for="row in displayData" :key="row.guid" :row="row">
+          <td v-for="k in Object.keys(row)" :key="'td' + k">
+            {{ row[k] }}
           </td>
-        </tr>
+        </v-tr>
       </tbody>
-    </table>
+    </v-table>
     <footer v-if="pages" class="table-footer">
       <DButton
         v-if="pages.prev"
@@ -55,7 +54,7 @@
 </template>
 
 <script>
-import { DIcon, DButton } from '@brown-ccv/disco-vue-components'
+import { DIcon, DButton } from '@brown-ccv/disco-vue-components';
 
 export default {
   components: {
@@ -64,9 +63,9 @@ export default {
   },
   filters: {
     humanize(str) {
-      const cleanStr = str.replace(/_/g, ' ')
-      const upperFirst = cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1)
-      return upperFirst
+      const cleanStr = str.replace(/_/g, ' ');
+      const upperFirst = cleanStr.charAt(0).toUpperCase() + cleanStr.slice(1);
+      return upperFirst;
     },
   },
   props: {
@@ -81,43 +80,25 @@ export default {
   },
   data() {
     return {
-      currentSortDir: 'asc',
-      currentSort: Object.keys(this.data[0])[0],
-    }
+      selectedRows: [],
+    };
   },
   computed: {
     ths() {
-      return Object.keys(this.data[0])
-    },
-    sorted() {
-      return this.data.slice().sort((a, b) => {
-        let modifier = 1
-        if (this.currentSortDir === 'desc') modifier = -1
-        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier
-        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier
-        return 0
-      })
+      return Object.keys(this.data[0]);
     },
   },
   methods: {
     goto(event) {
-      this.$emit('goto', event)
-    },
-    sort(sortby) {
-      this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc'
-      this.currentSort = sortby
+      this.$emit('goto', event);
     },
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .table-footer {
   display: flex;
   justify-content: center;
   justify-items: center;
-}
-.sort-button {
-  border: 0;
-  font-size: 0.6rem;
 }
 </style>
