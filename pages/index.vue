@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Table :data="tableData" :pages="pages" @goto="goTo" />
+    <Table :data="tableData" :pages="pages" @goto="goTo" @search="search" />
   </div>
 </template>
 
@@ -33,6 +33,12 @@ export default {
   methods: {
     async goTo(payload) {
       await this.$store.dispatch('samples/fetchData', this.pages[payload]);
+    },
+    async search(payload) {
+      await this.$store.dispatch(
+        'samples/fetchData',
+        `samples?search=${payload}`
+      );
     },
   },
 };

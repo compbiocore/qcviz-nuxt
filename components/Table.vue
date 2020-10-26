@@ -1,5 +1,27 @@
 <template>
-  <div>
+  <div class="table-container mt-6">
+    <div class="field has-addons search-field">
+      <div class="control">
+        <input
+          v-model="searchString"
+          class="input"
+          type="text"
+          placeholder="Search samples"
+        />
+      </div>
+      <div class="control">
+        <DButton type="button" name="Search" @click="search">
+          <template #icon-right>
+            <DIcon name="search" family="light" class="ml-4" />
+          </template>
+        </DButton>
+        <DButton type="button" name="Reload" @click="reload">
+          <template #icon-right>
+            <DIcon name="redo-alt" family="light" class="ml-4" />
+          </template>
+        </DButton>
+      </div>
+    </div>
     <v-table
       class="table-hover table"
       :data="data"
@@ -81,6 +103,7 @@ export default {
   data() {
     return {
       selectedRows: [],
+      searchString: '',
     };
   },
   computed: {
@@ -92,6 +115,12 @@ export default {
     goto(event) {
       this.$emit('goto', event);
     },
+    search() {
+      this.$emit('search', this.searchString);
+    },
+    reload() {
+      this.$emit('search', '');
+    },
   },
 };
 </script>
@@ -100,5 +129,14 @@ export default {
   display: flex;
   justify-content: center;
   justify-items: center;
+}
+.table-container {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+.search-field {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
