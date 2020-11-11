@@ -27,7 +27,7 @@
       :data="data"
       selection-mode="multiple"
       selected-class="has-background-grey-lighter"
-      @selectionChanged="selectedRows = $event"
+      @selectionChanged="rowSelection($event)"
     >
       <thead slot="head">
         <tr>
@@ -41,9 +41,14 @@
         </tr>
       </thead>
       <tbody slot="body" slot-scope="{ displayData }">
-        <v-tr v-for="row in displayData" :key="row.guid" :row="row">
+        <v-tr
+          v-for="row in displayData"
+          :id="row.sample_id + '_' + row.experiment_id"
+          :key="row.guid"
+          :row="row"
+        >
           <td v-for="k in Object.keys(row)" :key="'td' + k">
-            {{ row[k] }}
+            <span>{{ row[k] }}</span>
           </td>
         </v-tr>
       </tbody>
@@ -110,6 +115,9 @@ export default {
     ths() {
       return Object.keys(this.data[0]);
     },
+    selectedIds() {
+      return this.selectedRows.map((r) => r.sample_id + '_' + r.experiment_id);
+    },
   },
   methods: {
     goto(event) {
@@ -120,6 +128,10 @@ export default {
     },
     reload() {
       this.$emit('search', '');
+    },
+    rowSelection(e) {
+      this.selectedRows = e;
+      this.$emit('selectedSamples', e);
     },
   },
 };

@@ -10,7 +10,6 @@ export const mutations = {
 };
 export const actions = {
   async fetchData({ commit }, route) {
-    console.log(route);
     const data = await this.$axios.$get(route);
     const parsed = data.data.map((d) => {
       const json = JSON.parse(JSON.parse(d.json));
