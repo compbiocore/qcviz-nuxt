@@ -6981,10 +6981,10 @@ git-config-path@^2.0.0:
   resolved "https://registry.yarnpkg.com/git-config-path/-/git-config-path-2.0.0.tgz#62633d61af63af4405a5024efd325762f58a181b"
   integrity sha512-qc8h1KIQbJpp+241id3GuAtkdyJ+IK+LIVtkiFTRKRrmddDzs3SI9CvP1QYmWBFvm1I/PWRwj//of8bgAc0ltA==
 
-git-cz@^4.3.1:
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/git-cz/-/git-cz-4.7.1.tgz#90edaa8dba1ec8be689b22fbf8d006c44b21b31f"
-  integrity sha512-Emb/Xz/LcL3SGxA/PD6RUrhUT6m2v0O9nWTjwCBAoE2UXxj9HkJcfphL3RkePtiTNFkVZMk0q5EUfHnO7HAfiw==
+git-cz@^4.3.1, git-cz@^4.7.5:
+  version "4.7.5"
+  resolved "https://registry.yarnpkg.com/git-cz/-/git-cz-4.7.5.tgz#9707efabc60ebb23e8d1e61469d195bdb91c49ad"
+  integrity sha512-FBzBE2gbadDXQEIV/yq5lPZt4UTXLK1+RwsnAM6K6AA9/Wwtvr6pLgX1+g/V7h1grl9gXIlIXu7srbdGxoJPqA==
 
 git-log-parser@^1.2.0:
   version "1.2.0"
